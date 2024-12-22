@@ -4,6 +4,8 @@
     const AuthRouter = require('./Routes/Auth')
     const {mongodbconnect} = require('./Views/Connection')
     const cors = require('cors');
+    require('dotenv').config()
+
     app.use(cors({
         origin: '*'
     }));
@@ -15,6 +17,6 @@
     app.get('/',async (req, res)=>{
        res.send("your are in home page")
     })
-    app.listen( 7000 ,()=>{
+    app.listen( process.env.PORT ,()=>{
         console.log('server is started')
     })
