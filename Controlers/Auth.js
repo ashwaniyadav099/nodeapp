@@ -11,12 +11,10 @@ async function loginuser(req ,res){
         }
         
         const user = await User.findOne({ email: body.email});
-        console.log(user)
         if(!user){
             res.status(400).send('user not found')
         }
-
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(body.password, user.password);
         if (isMatch) {
             var token = jwt.sign({ email: body.email }, 'ashwani');
             res.status(201).json({message: token})
@@ -34,15 +32,13 @@ async function addnewuser(req ,res){
     let body = req.body
      try {
         const saltRounds = 14; // Number of salt rounds for bcrypt
-        // const hashedPassword = await bcrypt.hash( body.password, saltRounds);
+         const hashedPassword = await bcrypt.hash( body.password, saltRounds);
          const result = await User.create({
-             id: new ObjectId().toString(),
              user_name: body.name,
              email: body.email,
              mobile: body.mobile,
-             password:body.password,
+             password:hashedPassword,
          });
-         console.log('New User Created:', result);
          res.status(201).json({ message: 'User created successfully' });
      } catch (error) {
          console.error('Error creating user:', error);

@@ -12,7 +12,7 @@
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use('/user', userRouter)
-    app.use('/auth', AuthRouter)
+    // app.use('/auth', AuthRouter)
     mongodbconnect()
     app.get('/',async (req, res)=>{
        res.send("your are in home page")
